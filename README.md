@@ -1,3 +1,6 @@
+# This is a simple to-do-list app which uses browser local stoarge for storing tasks related data
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
