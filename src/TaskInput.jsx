@@ -1,7 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import "./TaskInput.css"
 import {TaskList} from "./TaskList";
-let deleteCheck=false;
 function TaskInput(){
     const [name,setName]=useState("")
     const [listTask,setlistTask]=useState([])
@@ -9,16 +8,21 @@ function TaskInput(){
     const [check,setCheck]=useState(false)
     const [prev_value,setPrev_val]=useState("")
     const [counter,setCounter]=useState(0)
+    const firstundoneUpdate=useRef(true)
+    const firstdoneUpdate=useRef(true)
     useEffect(()=>{
-        if(listTask.length!==0 || deleteCheck){
+        if(!firstundoneUpdate.current){
             localStorage.setItem('undone-task', JSON.stringify(listTask || []));
-            deleteCheck=false
+        }else{
+            firstundoneUpdate.current=false;
         }
-
     },[listTask])
+
     useEffect(()=>{
-        if(donelistTask.length!==0){
+        if(!firstdoneUpdate.current){
             localStorage.setItem('done-task', JSON.stringify(donelistTask || []));
+        }else{
+            firstdoneUpdate.current=false
         }
 
     },[donelistTask])
@@ -35,7 +39,6 @@ function TaskInput(){
         }
     },[])
     const deleteTask=(val)=>{
-        deleteCheck=true
         setlistTask(listTask.filter(item=> item.id !== val.id))
     }
     const updateTask=(prev_value)=>{
