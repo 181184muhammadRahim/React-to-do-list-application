@@ -1,30 +1,21 @@
-import React, { useState,useEffect,useRef } from "react";
+import React, { useState,useEffect} from "react";
 import "./TaskInput.css"
 import {TaskList} from "./TaskList";
 function TaskInput(){
     const [name,setName]=useState("")
-    const [listTask,setlistTask]=useState([])
-    const [donelistTask,setdonelistTask]=useState([])
+    const [listTask,setlistTask]=useState(JSON.parse(localStorage.getItem('undone-task')) || [])
+    const [donelistTask,setdonelistTask]=useState(JSON.parse(localStorage.getItem('done-task')) || [])
     const [check,setCheck]=useState(false)
     const [prev_value,setPrev_val]=useState("")
     const [counter,setCounter]=useState(0)
-    const firstundoneUpdate=useRef(true)
-    const firstdoneUpdate=useRef(true)
+    //const firstundoneUpdate=useRef(true)
+    //const firstdoneUpdate=useRef(true)
     useEffect(()=>{
-        if(!firstundoneUpdate.current){
-            localStorage.setItem('undone-task', JSON.stringify(listTask || []));
-        }else{
-            firstundoneUpdate.current=false;
-        }
+        localStorage.setItem('undone-task', JSON.stringify(listTask || []));
     },[listTask])
 
     useEffect(()=>{
-        if(!firstdoneUpdate.current){
-            localStorage.setItem('done-task', JSON.stringify(donelistTask || []));
-        }else{
-            firstdoneUpdate.current=false
-        }
-
+        localStorage.setItem('done-task', JSON.stringify(donelistTask || []));
     },[donelistTask])
 
     useEffect(()=>{
